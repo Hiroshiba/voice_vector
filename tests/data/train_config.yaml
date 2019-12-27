@@ -1,0 +1,26 @@
+dataset:
+  input_glob: "/path/to/melspec-npy/*.npy"
+  vowel_glob: "/path/to/vowel-npy/*.npy"
+  speaker_dict_path: "/path/to/speaker_dict.json"
+  num_test: 100
+  seed: 0
+
+network:
+  hidden_size: 32
+  layer_num: 4
+  in_size: 80
+  out_size: 100
+
+model: {}
+
+train:
+  batchsize: 100
+  log_iteration: 1000
+  snapshot_iteration: 100000
+  stop_iteration: 100000
+  optimizer:
+    name: "adam"
+    lr: 0.001
+
+project:
+  name: null
