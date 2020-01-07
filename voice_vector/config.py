@@ -12,6 +12,7 @@ class DatasetConfig:
     vowel_glob: str
     speaker_dict_path: Path
     num_test: int
+    num_times_test: int = 1
     seed: int = 0
 
 
@@ -19,6 +20,7 @@ class DatasetConfig:
 class NetworkConfig:
     hidden_size: int
     layer_num: int
+    feature_size: Optional[int] = None
     in_size: int = 80
     out_size: int = 100
 

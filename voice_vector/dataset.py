@@ -6,7 +6,7 @@ from typing import List, Sequence, Dict
 
 import numpy
 from acoustic_feature_extractor.data.sampling_data import SamplingData
-from torch.utils.data.dataset import Dataset
+from torch.utils.data.dataset import Dataset, ConcatDataset
 
 from voice_vector.config import DatasetConfig
 from voice_vector.utility.dataset_utility import default_convert
@@ -78,13 +78,16 @@ def create_dataset(config: DatasetConfig):
     tests, trains = inputs[:config.num_test], inputs[config.num_test:]
     train_tests = trains[:config.num_test]
 
-    def dataset_wrapper(datas):
-        return InputTargetDataset(
+    def dataset_wrapper(datas, is_test: bool):
+        dataset = InputTargetDataset(
             datas=datas,
         )
+        if is_test:
+            dataset = ConcatDataset([dataset] * config.num_times_test)
+        return dataset
 
     return {
-        'train': dataset_wrapper(trains),
-        'test': dataset_wrapper(tests),
-        'train_test': dataset_wrapper(train_tests),
+        'train': dataset_wrapper(trains, is_test=False),
+        'test': dataset_wrapper(tests, is_test=True),
+        'train_test': dataset_wrapper(train_tests, is_test=True),
     }
