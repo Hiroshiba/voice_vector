@@ -19,7 +19,7 @@ def create_network(config: NetworkConfig):
     return Networks(
         predictor=create_predictor(config),
         tail=AdaCos(
-            num_features=config.hidden_size,
+            num_features=config.hidden_size if config.feature_size is None else config.feature_size,
             num_classes=config.out_size,
         ),
     )
