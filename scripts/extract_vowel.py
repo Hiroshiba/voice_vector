@@ -11,6 +11,8 @@ from tqdm import tqdm
 
 from utility.save_arguments import save_arguments
 
+_vowels = ['a', 'i', 'u', 'e', 'o']
+
 
 def process(
         path: Path,
@@ -24,7 +26,7 @@ def process(
     length = int(round(phonemes[-1].end * rate)) + 1
     array = numpy.zeros((length,), dtype=numpy.bool)
 
-    for p in phonemes:
+    for p in filter(lambda p: p.phoneme in _vowels, phonemes):
         s = int(round(p.start * rate))
         e = int(round(p.end * rate))
         array[s:e + 1] = True
