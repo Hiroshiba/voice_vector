@@ -3,6 +3,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Sequence, Dict
+from warnings import warn
 
 import numpy
 from acoustic_feature_extractor.data.sampling_data import SamplingData
@@ -36,6 +37,8 @@ class InputTargetDataset(Dataset):
         speaker_num = data.speaker_num
 
         assert len(vowel) <= len(input), f'{data.input_path.stem} cannot be processed.'
+        if abs(len(vowel) - len(input)) >= 10:
+            warn(f'{data.input_path.stem} is not matched.')
 
         input_vowel = input[:len(vowel)][vowel]
         i = numpy.random.randint(len(input_vowel))
